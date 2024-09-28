@@ -1,3 +1,4 @@
+import snippet from '@/api/snippet';
 import web from '@/api/web';
 import { Router } from 'express';
 
@@ -7,6 +8,10 @@ const defaultRoutes = [
   {
     path: '/',
     route: web,
+  },
+  {
+    path: '/snippet',
+    route: snippet,
   },
 ];
 
