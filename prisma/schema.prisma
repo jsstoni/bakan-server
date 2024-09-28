@@ -14,12 +14,27 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  email     String     @unique
   password  String
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  Snippets  Snippets[]
+
+  @@map("users")
+}
+
+model Snippets {
+  id        Int      @id @default(autoincrement())
+  title     String
+  lang      String
+  code      String   @db.Text
+  uuid      String   @unique
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("users")
+  @@map("snippets")
 }
