@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { generateToken } from '@/lib/utils';
 import { validate_snippet } from '@/lib/validate';
 import isAuthorized from '@/middleware/auth/authorized';
-import { Router } from 'express';
+import { Request, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 const router = Router();
@@ -29,6 +29,20 @@ router.post('/', isAuthorized, async (req, res, next) => {
     });
 
     res.status(StatusCodes.CREATED).json(snippet);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/', isAuthorized, async (req, res, next) => {
+  try {
+    if (!req.token) {
+      throw new Error('Unauthorized: You are already logged in');
+    }
+    const userId = req.token.id;
+
+    const snippets = await prisma.snippets.findMany({ where: { userId } });
+    res.status(StatusCodes.OK).json(snippets);
   } catch (error) {
     next(error);
   }
