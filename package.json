@@ -6,13 +6,10 @@
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "clean": "rimraf dist",
     "build": "npm run clean && tsup",
-    "lint": "biome lint",
+    "lint": "biome lint .",
     "format": "biome format --write . && biome check --write ."
   },
-  "keywords": [
-    "expressjs",
-    "typescript"
-  ],
+  "keywords": ["expressjs", "typescript"],
   "author": "jsstoni",
   "license": "MIT",
   "devDependencies": {

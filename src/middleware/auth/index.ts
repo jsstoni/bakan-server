@@ -1,2 +1,2 @@
-export * from './authorized';
-export * from './validate';
+export * from "./authorized";
+export * from "./validate";

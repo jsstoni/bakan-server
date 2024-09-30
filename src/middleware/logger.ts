@@ -1,19 +1,19 @@
-import pino from 'pino';
-import pinoHTTP from 'pino-http';
+import pino from "pino";
+import pinoHTTP from "pino-http";
 
 const logger = pino({
   transport: {
     targets: [
       {
-        target: 'pino-pretty',
+        target: "pino-pretty",
         options: {
-          ignore: 'pid,hostname',
+          ignore: "pid,hostname",
           singleLine: true,
         },
       },
     ],
   },
-  name: 'Server',
+  name: "Server",
 });
 
 const middleware = pinoHTTP({

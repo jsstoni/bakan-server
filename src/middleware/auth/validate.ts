@@ -1,6 +1,6 @@
-import { JWT_SECRET } from '@/lib/env';
-import jwt from 'jsonwebtoken';
-import { Auth, ErrorAuth } from './types';
+import { JWT_SECRET } from "@/lib/env";
+import jwt from "jsonwebtoken";
+import type { Auth, ErrorAuth } from "./types";
 
 export const jwtValidate = (token: string): Auth | ErrorAuth => {
   try {
@@ -8,6 +8,6 @@ export const jwtValidate = (token: string): Auth | ErrorAuth => {
 
     return decode;
   } catch (_error) {
-    return { error: 'Unauthorized Invalid token' };
+    return { error: "Unauthorized Invalid token" };
   }
 };
