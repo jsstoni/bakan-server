@@ -10,21 +10,21 @@ const router = Router();
 router.post("/", isAuthorized, async (req, res, next) => {
   try {
     const parsedData = validate_snippet.parse(req.body);
-    const { title, lang, code, token } = parsedData;
-    let uuid = token;
+    const { title, lang, code, uuid } = parsedData;
+    let uuidState = uuid;
     if (!req.token) {
       throw new Error("Unauthorized: You are already logged in");
     }
 
-    if (!uuid) {
-      uuid = generateToken(16);
+    if (!uuidState) {
+      uuidState = generateToken(16);
     }
 
     const userId = req.token.id;
 
     const snippet = await prisma.snippets.upsert({
       where: { uuid, userId },
-      create: { uuid, userId, title, lang, code },
+      create: { uuid: uuidState, userId, title, lang, code },
       update: { uuid, title, lang, code },
     });
 

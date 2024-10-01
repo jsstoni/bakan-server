@@ -24,5 +24,5 @@ export const validate_snippet = z.object({
   title: z.string({ message: "Title is required" }),
   lang: z.string({ message: "Language is required" }),
   code: z.string({ message: "Code is required" }),
-  token: z.string().optional(),
+  uuid: z.string().optional(),
 });
