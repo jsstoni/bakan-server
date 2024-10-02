@@ -41,23 +41,23 @@ router.get("/", isAuthorized, async (req, res, next) => {
     }
     const userId = req.token.id;
 
-    const snippets = await prisma.snippets.findMany({ where: { userId } });
+    const snippets = await prisma.snippets.findMany({
+      where: { userId },
+      include: { user: { select: { name: true } } },
+    });
     res.status(StatusCodes.OK).json(snippets);
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/:id", isAuthorized, async (req, res, next) => {
+router.get("/:user/:id", async (req, res, next) => {
   try {
-    if (!req.token) {
-      throw new Error("Unauthorized: You are already logged in");
-    }
-    const userId = req.token.id;
     const uuid = req.params.id;
+    const name = req.params.user;
 
     const snippet = await prisma.snippets.findUnique({
-      where: { userId, uuid },
+      where: { uuid, user: { name } },
     });
 
     if (!snippet) {
