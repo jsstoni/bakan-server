@@ -43,6 +43,7 @@ router.get("/", isAuthorized, async (req, res, next) => {
 
     const snippets = await prisma.snippets.findMany({
       where: { userId },
+      orderBy: { id: "desc" },
       include: { user: { select: { name: true } } },
     });
     res.status(StatusCodes.OK).json(snippets);
