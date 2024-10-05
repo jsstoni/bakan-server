@@ -1,3 +1,4 @@
+import chat from "@/api/chat";
 import snippet from "@/api/snippet";
 import web from "@/api/web";
 import { Router } from "express";
@@ -12,6 +13,10 @@ const defaultRoutes = [
   {
     path: "/snippet",
     route: snippet,
+  },
+  {
+    path: "/chat",
+    route: chat,
   },
 ];
 
