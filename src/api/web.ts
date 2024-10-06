@@ -2,6 +2,7 @@ import { JWT_SECRET } from "@/lib/env";
 import prisma from "@/lib/prisma";
 import { validate_login, validate_register } from "@/lib/validate";
 import isAuthorized from "@/middleware/auth/authorized";
+import bcrypt from "bcrypt";
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
@@ -11,11 +12,13 @@ const router = Router();
 router.post("/register", async (req, res, next) => {
   try {
     const parsedData = validate_register.parse(req.body);
-    const { name, email, password, repassword } = parsedData;
+    let { name, email, password, repassword } = parsedData;
 
     if (password !== repassword) {
       throw new Error("Passwords do not match");
     }
+
+    password = await bcrypt.hash(password, 10);
 
     const users = await prisma.users.create({
       data: {
@@ -48,7 +51,7 @@ router.post("/login", async (req, res, next) => {
       throw new Error("User not found");
     }
 
-    const isPasswordCorrect = password === user.password;
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     const token = jwt.sign({ id: user.id }, JWT_SECRET);
 
     res
