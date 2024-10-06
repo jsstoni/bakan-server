@@ -7,12 +7,11 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     return next(err);
   }
 
+  const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   let message = err.message || "An error occurred on the server";
-  let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
 
   if (err instanceof z.ZodError) {
     message = err.issues.map((issue) => issue.message).join(", ");
-    statusCode = StatusCodes.BAD_REQUEST;
   } else if (err instanceof Error) {
     message = err.message;
   }
